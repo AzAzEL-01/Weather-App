@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+
+body{
+    height: 100vh;
+    background-color: #f7f7f7;
+}
+
+.container{
+    height: 50vh ;
+    width: 40vw;
+    padding: 10px;
+    box-shadow:  0 25px 50px -12px hsl(0, 0%, 55%) ;
+    border-radius: 10px;
+    text-align: center;
+    margin: auto;
+    margin-top: 50px;
+
+}
+
+.title{
+    font-family: sans-serif;
+    margin: 10px 10px;
+    padding: 3px;
+
+}
+
+.input-form{
+    display: flex;
+}
