@@ -13,21 +13,33 @@ const Forecast = (props) => {
         const forecastResponse = await fetch(url);
         const forecastData = await forecastResponse.json()
 
+        if (forecastData.cod !== "200") {
+          // API returned an error like 404
+          setForecast([]);
+          console.warn("Invalid city:", forecastData.message);
+          return;
+        }
+
         const dailyForecast = forecastData.list.filter((item,index) => index%8 ===0)
           setForecast(dailyForecast)
-        
+         
+          
+        } 
 
         
         
   
   
-      }
+      
        
       catch(error){
-        console.log(error)
+        console.error("Fetch error:", error);
+        setForecast([]);
       }
 
     }
+
+    
 
  
     
@@ -53,39 +65,47 @@ const Forecast = (props) => {
 
 
 
+
+
   return (
     <>
-     <div className='forecast'>
-     {forecast.length>0 && (
-      <h2 className="forecast-header"></h2>
-     )
-
-     }
-
-        <div className="forecast-days">
-          {forecast.map((day,index)=>(
-             <div key={index} className="forecast-day">
-              
-            <p>{new Date(day.dt*1000).toLocaleDateString("en-US",{weekday:"short"})}</p>
-            <p>
-              <img src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`} alt ={day.weather[0].description}
-                />
-            </p>
-            <p>{Math.round((day.main.temp -32)/1.8)}°C</p>
-             </div>
-
-          )
-          
-        
-  )
-
-          }
-            
-            
-        </div>
-
+    {forecast.length > 0 && (
+       <div className='forecast'>
+    
+       <h2 className="forecast-header">5-Day Forecast</h2>
       
-    </div>
+ 
+      
+ 
+         <div className="forecast-days">
+ 
+           {forecast.map((day,index)=>(
+              <div key={index} className="forecast-day">
+               
+             <p>{new Date(day.dt*1000).toLocaleDateString("en-US",{weekday:"short"})}</p>
+             <p>
+               <img src={`http://openweathermap.org/img/wn/${day.weather[0].icon}.png`} alt ={day.weather[0].description}
+                 />
+             </p>
+             <p>{Math.round((day.main.temp -32)/1.8)}°C</p>
+             
+              </div>
+ 
+           )
+           
+         
+   )
+ 
+           }
+             
+             
+         </div>
+ 
+       
+     </div>
+
+    )}
+    
     </>
 
    

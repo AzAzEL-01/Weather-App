@@ -48,7 +48,7 @@ const Weather = () => {
 
   useEffect(()=>{
 
-    if (city.trim()!==""){
+    {
       fetchData(city)
 
     }
@@ -61,6 +61,7 @@ const Weather = () => {
 
 
 
+ 
    
    return (
     <div>
@@ -73,13 +74,14 @@ const Weather = () => {
         <button type="submit" className='btn' >Get Weather</button>
 
         </form>
+
       
        
 
         
 
         <WeatherDetails weatherData={weatherData}/>
-        <Forecast city={city} />
+        <Forecast city={city}  />
 
        
 
