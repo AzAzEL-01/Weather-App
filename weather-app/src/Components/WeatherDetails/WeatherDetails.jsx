@@ -1,22 +1,22 @@
 import React from 'react'
 import "./WeatherDetails.css"
 
-const WeatherDetails = () => {
+const WeatherDetails = (props) => {
   return (
     <div>
         <div className='header'>
-        <h1 className="city">Kathmandu</h1>
-        <p className="temperature">60F°</p>
-        <p className="condition">Cloudy</p>
+        <h1 className="city">{props.weatherData?.name}</h1>
+        <p className="temperature">{props.weatherData?.main.temp}</p>
+        <p className="condition">{props.weatherData?.weather[0].main}</p>
         </div>
          <div className="weather-details">
           <div className='Humidity'>
             <p>Humidity</p>
-            <p>60%</p>
+            <p>{props.weatherData?.main.humidity}%</p>
           </div>
           <div className='windspeed'>
             <p>Wind Speed</p>
-            <p>5 mph</p>
+            <p>{props.weatherData?.wind.speed} mph</p>
             </div>
         </div>
       
