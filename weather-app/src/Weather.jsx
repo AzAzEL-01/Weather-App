@@ -8,30 +8,53 @@ import Forecast from './Components/Forecast/Forecast'
 
 const Weather = () => {
   const APIKEY = "07047c265867a9b370dbd342914e7be0";
-  
-  
-  const [value, setValue] = useState("");
+  const [city, setCity] = useState("");
+  const[input, setInput] = useState("");
+  const[error, setError] = useState("null");
+  const [loading, setLoading] = useState(false);
   const[weatherData, setWeatherData] = useState(null);
-  const [city, setCity] = useState("kathmandu");
+
+  const fetchData = async(cityName) =>{
+    try{
+
+          setLoading(true)
+          setError(null)
+          const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APIKEY}&units=metric`;
+          const response = await fetch(url);
+          const data = await response.json();
+          setWeatherData(data);
+          
+
+    }
+    
+    catch(error){
+      setError("Couldn't fetch data, please try again..")
+
+    }
+
+    finally{
+      setLoading(false)
+
+    }
+  };
+
+  const handleSubmit =(event)=>{
+    event.preventDefault()
+    fetchData(input)
+    setCity(input)
+
+  }
+  
 
   useEffect(()=>{
-    const fetchData = async(cityName) =>{
-      try{
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APIKEY}&units=metric`;
-            const response = await fetch(url);
-            const data = await response.json();
-            setWeatherData(data);
-            console.log(data)
 
-      }
-      
-      catch(error){
-        console.log(error);
+    if (city.trim()!==""){
+      fetchData(city)
 
-      };
-    };
+    }
+    
 
-    fetchData(city)
+    
 
     
   },[city])
@@ -44,14 +67,19 @@ const Weather = () => {
 
     <div className='container'>
         <h3 className='title'>Weather App</h3>
-       <input type="text"  className='user-input' />
-        <button className='btn' >Get Weather</button>
+        <form action="submit" onSubmit={handleSubmit}>
+        <input type="text" value={input} onChange={(e)=>setInput(e.target.value)}
+        className='user-input' placeholder='Enter City Name...' />
+        <button type="submit" className='btn' >Get Weather</button>
+
+        </form>
+      
        
 
         
 
         <WeatherDetails weatherData={weatherData}/>
-        <Forecast />
+        <Forecast city={city} />
 
        
 
